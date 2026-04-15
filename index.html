@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Video</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="header">
+      <p class="eyebrow">Shared video</p>
+      <h1 class="title">Sit back and press play</h1>
+    </header>
+
+    <figure class="stage">
+      <div class="video-shell">
+        <video
+          id="player"
+          class="player"
+          controls
+          playsinline
+          preload="metadata"
+          poster="image0.jpg"
+        >
+          Your browser does not support embedded video.
+        </video>
+        <div class="play-overlay" id="play-overlay" aria-hidden="true">
+          <button type="button" class="play-trigger" id="play-trigger" aria-label="Play video">
+            <img class="play-art" src="image0.jpg" alt="" width="1368" height="1024" decoding="async" />
+          </button>
+        </div>
+      </div>
+    </figure>
+
+    <p class="hint" id="load-hint" hidden>Loading…</p>
+  </div>
+
+  <script>
+    /**
+     * Plays in order. For GitHub Pages, replace entries with direct HTTPS URLs as needed.
+     * stuff.mp4 is very large — it cannot live in the repo (GitHub file limit ~100MB).
+     */
+    const PLAYLIST = ["vid1.mp4", "stuff.mp4"];
+
+    (function () {
+      const video = document.getElementById("player");
+      const hint = document.getElementById("load-hint");
+      const overlay = document.getElementById("play-overlay");
+      const playBtn = document.getElementById("play-trigger");
+      var index = 0;
+
+      function syncPlayOverlay() {
+        var hide = !video.paused && !video.ended;
+        overlay.classList.toggle("is-hidden", hide);
+        overlay.setAttribute("aria-hidden", hide ? "true" : "false");
+      }
+
+      function tryPlay() {
+        var p = video.play();
+        if (p !== undefined) {
+          p.catch(function () {
+            video.addEventListener(
+              "canplay",
+              function once() {
+                video.removeEventListener("canplay", once);
+                video.play().catch(function () {});
+              },
+              { once: true }
+            );
+          });
+        }
+      }
+
+      video.src = PLAYLIST[index];
+      video.addEventListener("loadstart", function () {
+        hint.hidden = false;
+      });
+      video.addEventListener("canplay", function () {
+        hint.hidden = true;
+      });
+      video.addEventListener("play", syncPlayOverlay);
+      video.addEventListener("pause", syncPlayOverlay);
+      video.addEventListener("ended", function () {
+        if (index < PLAYLIST.length - 1) {
+          index += 1;
+          video.src = PLAYLIST[index];
+          tryPlay();
+        }
+        syncPlayOverlay();
+      });
+
+      playBtn.addEventListener("click", function () {
+        tryPlay();
+      });
+
+      syncPlayOverlay();
+    })();
+  </script>
+</body>
+</html>

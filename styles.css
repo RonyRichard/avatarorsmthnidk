@@ -1,0 +1,141 @@
+:root {
+  --bg: #0c0d10;
+  --surface: #14161c;
+  --text: #e8eaef;
+  --muted: #8b919c;
+  --accent: #7c9cff;
+  --radius: 12px;
+  --shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  font-family: "Instrument Sans", system-ui, -apple-system, Segoe UI, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem) 3rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.eyebrow {
+  margin: 0 0 0.35rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.stage {
+  margin: 0;
+  padding: clamp(0.75rem, 2vw, 1rem);
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.video-shell {
+  position: relative;
+  border-radius: calc(var(--radius) - 4px);
+  overflow: hidden;
+}
+
+.player {
+  display: block;
+  width: 100%;
+  max-height: min(70vh, 720px);
+  margin: 0 auto;
+  border-radius: calc(var(--radius) - 4px);
+  background: #000;
+}
+
+.play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.play-overlay.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.play-trigger {
+  pointer-events: auto;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 10px;
+  line-height: 0;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.play-trigger:hover {
+  transform: scale(1.04);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55);
+}
+
+.play-trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.play-trigger:active {
+  transform: scale(0.98);
+}
+
+.play-art {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(52vw, 280px);
+  max-height: min(28vh, 200px);
+  border-radius: 10px;
+}
+
+.hint {
+  margin: 1rem 0 0;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 35%, transparent);
+}
