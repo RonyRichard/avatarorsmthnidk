@@ -41,10 +41,13 @@
 
   <script>
     /**
-     * Plays in order. For GitHub Pages, replace entries with direct HTTPS URLs as needed.
-     * stuff.mp4 is very large — it cannot live in the repo (GitHub file limit ~100MB).
+     * Plays in order.
+     *
+     * vid1.mp4 is stored in this repo.
+     * stuff.mp4 must be hosted elsewhere (Cloudflare R2 / B2 / etc.) and linked here.
      */
-    const PLAYLIST = ["vid1.mp4", "stuff.mp4"];
+    const STUFF_URL = "PUT_YOUR_DIRECT_MP4_URL_HERE";
+    const PLAYLIST = ["vid1.mp4", STUFF_URL];
 
     (function () {
       const video = document.getElementById("player");
